@@ -12,6 +12,7 @@
 (defn normalize [url]
   (let [root (first (str/split url #"#"))]
     (cond
+     (= "www" (first (clojure.string/split root #"\."))) (str "http://" root)
      (and (= \/ (first root)) (not= \h (first root))) (str *base-url* root)
      (not= \h (first root)) (str *base-url* "/" root)
      :else root)))
@@ -23,7 +24,7 @@
 (defn extract [coll]
   (remove #(not (.contains % *base-url*))
           (map normalize
-               (remove #(re-find #"mailto" %)
+               (remove #(or (= "#" %) (= "/" %) (nil? %) (.contains % "mailto"))
                        coll))))
 
 (defn fetch [url]

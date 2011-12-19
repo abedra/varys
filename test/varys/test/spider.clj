@@ -12,7 +12,9 @@
   (testing "when the url is relative and doesn't start with a '/'"
     (is (= "http://example.com/about" (normalize "about"))))
   (testing "removes the anchor portion of a url"
-    (is (= "http://example.com/about" (normalize "about#person")))))
+    (is (= "http://example.com/about" (normalize "about#person"))))
+  (testing "adds http:// when the url starts with www."
+    (is (= "http://www.example.com" (normalize "www.example.com")))))
 
 (deftest test-push
   (testing "when the url is not already on the queue"
