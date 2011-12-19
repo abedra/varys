@@ -1,16 +1,18 @@
-(ns varys.test.core
-  (:use [clojure.test]
-        [varys.core]))
+(ns varys.test.spider
+  (:use clojure.test
+        varys.spider))
+
+(alter-var-root (var *base-url*) (constantly "http://example.com"))
 
 (deftest test-normalize
   (testing "when the url is already normal"
     (is (= "http://foo.com" (normalize "http://foo.com"))))
   (testing "when the url is relative"
-    (is (= "http://thinkrelevance.com/about" (normalize "/about"))))
+    (is (= "http://example.com/about" (normalize "/about"))))
   (testing "when the url is relative and doesn't start with a '/'"
-    (is (= "http://thinkrelevance.com/about" (normalize "about"))))
+    (is (= "http://example.com/about" (normalize "about"))))
   (testing "removes the anchor portion of a url"
-    (is (= "http://thinkrelevance.com/about" (normalize "about#person")))))
+    (is (= "http://example.com/about" (normalize "about#person")))))
 
 (deftest test-push
   (testing "when the url is not already on the queue"
@@ -31,11 +33,11 @@
 
 (deftest test-extract
   (testing "removes mailto links"
-    (is (= '("http://thinkrelevance.com")
-           (extract '("mailto:jimbob@foo.com" "http://thinkrelevance.com")))))
+    (is (= '("http://example.com")
+           (extract '("mailto:jimbob@foo.com" "http://example.com")))))
   (testing "normalizes urls during extraction"
-    (is (= '("http://thinkrelevance.com/contacts" "http://thinkrelevance.com/about")
+    (is (= '("http://example.com/contacts" "http://example.com/about")
            (extract '("contacts" "about")))))
   (testing "removes urls that don't contain the base url"
-    (is (= '("http://thinkrelevance.com")
-           (extract '("http://foo.com" "http://thinkrelevance.com"))))))
+    (is (= '("http://example.com")
+           (extract '("http://foo.com" "http://example.com"))))))
