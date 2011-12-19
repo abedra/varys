@@ -1,13 +1,16 @@
-# varys
+# Varys
 
-FIXME: write description
+A Clojure based Master of Whisperers, or if you wish; spider.
 
 ## Usage
 
-FIXME: write
+lein deps
+lein run [-u | --base-url] http://url-to-test.com
+
+Varys will deploy his spymasters around the site, the Seven Kingdoms, across the Narrow Sea, and other places, looking for dead or broken links. Upon completion a report will be written to invalid-links.txt
 
 ## License
 
-Copyright (C) 2011 FIXME
+Copyright (C) 2011 Aaron Bedra
 
 Distributed under the Eclipse Public License, the same as Clojure.
